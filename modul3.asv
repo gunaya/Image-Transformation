@@ -119,8 +119,7 @@ function DCT_Callback(hObject, eventdata, handles)
     axes(handles.axes_transform);
     imshow(log(abs(handles.gambarDCT)),[]);
 
-    setappdata(handles.DCT, 'gambarDCT', handles.gambarDCT); %men-set gambar yang telah di DCT untuk digunakan di invers DCT
-
+    setappdata(handles.DCT, 'gambarDCT', handles.gambarDCT);
 
 % --- Executes on button press in FFT.
 function FFT_Callback(hObject, eventdata, handles)
@@ -137,8 +136,7 @@ function FFT_Callback(hObject, eventdata, handles)
     axes(handles.axes_transform);
     imshow(handles.gambarDFT,[]);
 
-    setappdata(handles.FFT, 'gambarFFT',gambarTr); %men-set gambar yang telah di FFT untuk digunakan di invers FFT
-
+    setappdata(handles.FFT, 'gambarFFT',gambarTr);
 
 % --- Executes on button press in Wavelet.
 function Wavelet_Callback(hObject, eventdata, handles)
@@ -166,8 +164,7 @@ function Wavelet_Callback(hObject, eventdata, handles)
     %subplot(2,2,2), imagesc(cH);
     %subplot(2,2,3), imagesc(cV);
     %subplot(2,2,4), imagesc(cD);
-    
-    %men-set nilai yang telah di wavelet untuk digunakan di invers wavelet
+
     setappdata(handles.Wavelet, 'cA',cA);
     setappdata(handles.Wavelet, 'cH',cH);
     setappdata(handles.Wavelet, 'cV',cV);
@@ -180,7 +177,7 @@ function InversDFT_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
     gambarDFT = getappdata(handles.DFT,'gambarDFT');
 
-    imAfterfft = ifft(gambarDFT); %fungsi invers DFT menggunakan ifft (menginvers gambar yang telah di DFT)
+    imAfterfft = ifft(gambarDFT); %fungsi invers DFT menggunakan ifft (menginvers gambar yang telah di fft)
     axes(handles.axes_invers);
     imshow(imAfterfft);
 
@@ -191,7 +188,7 @@ function InversDCT_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
     gambarDCT = getappdata(handles.DCT, 'gambarDCT');
 
-    gambarInvDCT = idct2(gambarDCT)/255; %fungsi invers DCT menggunakan idct2 dan dibagi 255 (menginvers gambar yang telah di DCT)
+    gambarInvDCT = idct2(gambarDCT)/255;
     axes(handles.axes_invers);
     imshow(gambarInvDCT);
 
@@ -202,10 +199,10 @@ function InversFFT_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
     gambarFFT = getappdata(handles.FFT,'gambarFFT');
 
-  %  magfft2=abs(gambarFFT);
-  %  phasefft2=angle(gambarFFT);
-  %  imafterfft2=abs(ifft2(magfft2.*exp(i*phasefft2)));
-    imafterfft2 = ifft2(gambarFFT); %fungsi invers FFT menggunakan ifft2 (menginvers gambar yang telah di FFT)
+    magfft2=abs(gambarFFT);
+    phasefft2=angle(gambarFFT);
+    imafterfft2=abs(ifft2(magfft2.*exp(i*phasefft2)));
+    % imafterfft2 = ifft2(gambarFFT);
     axes(handles.axes_invers);
     imshow(imafterfft2);
 
@@ -215,13 +212,13 @@ function InversWavelet_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
     gambar = getappdata(handles.buttonOpen,'gambarsaved');
-    sX = size(gambar); %mengambil ukuran gambar asli
+    sX = size(gambar);
     cA = getappdata(handles.Wavelet, 'cA');
     cH = getappdata(handles.Wavelet, 'cH');
     cV = getappdata(handles.Wavelet, 'cV');
     cD = getappdata(handles.Wavelet, 'cD');
 
-    InvWavelet = idwt2(cA,cH,cV,cD,'sym4',sX); %meng-invers Hasil Wavelet (cA,cH,cV,cD) menggunakan wavelet symlets
+    InvWavelet = idwt2(cA,cH,cV,cD,'sym4',sX);
     axes(handles.axes_invers);
     colormap gray;
     imagesc(InvWavelet);
@@ -231,7 +228,7 @@ function Exit_Callback(hObject, eventdata, handles)
 % hObject    handle to Exit (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-    close; %close program
+    close;
 
 
 % --- Executes on button press in clear.
@@ -239,5 +236,5 @@ function clear_Callback(hObject, eventdata, handles)
 % hObject    handle to clear (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-    axes(handles.axes_invers); %tambahan untuk meng-clear picture box 3
+    axes(handles.axes_invers);
     cla(handles.axes_invers);
